@@ -24,8 +24,8 @@ This application allows new customers to submit their personal information throu
    - Create a `.env` file in the root directory
    - Add your Alloy API credentials:
      ```
-     ALLOY_API_KEY=your_api_key_here
-     ALLOY_SECRET=your_secret_here
+     ALLOY_WORKFLOW_TOKEN=your_token_here
+     ALLOY_WORKFLOW_SECRET=your_secret_here
      ```
 
 3. **Start the development server**:
