@@ -27,14 +27,55 @@ export default class App extends Component {
   };
 
   // This runs when someone clicks "Submit Application"
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault(); // Stops the page from refreshing
 
-    // For now, just show a success message. Connecting to Alloy API later.
-    this.setState({
-      showResult: true,
-      resultMessage: 'Application submitted successfully!'
-    });
+    // Send the form data to our backend
+    try {
+      const response = await fetch('/api/submit-application', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          addressLine1: this.state.addressLine1,
+          addressLine2: this.state.addressLine2,
+          city: this.state.city,
+          state: this.state.state,
+          zipCode: this.state.zipCode,
+          ssn: this.state.ssn,
+          email: this.state.email,
+          dateOfBirth: this.state.dateOfBirth
+        })
+      });
+
+      const result = await response.json();
+
+      // Show different messages based on Alloy's response
+      let message = '';
+      if (result.outcome === 'Approved') {
+        message = 'Congratulations! Your application has been approved!';
+      } else if (result.outcome === 'Denied') {
+        message = 'Sorry, your application was not successful.';
+      } else if (result.outcome === 'Manual Review') {
+        message = 'Thanks for applying! We\'ll review and be in touch shortly.';
+      } else {
+        message = 'Application submitted successfully!';
+      }
+
+      this.setState({
+        showResult: true,
+        resultMessage: message
+      });
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      this.setState({
+        showResult: true,
+        resultMessage: 'Error submitting application. Please try again.'
+      });
+    }
   };
 
   // This runs when someone clicks "Start Over"
