@@ -16,7 +16,55 @@ export default class App extends Component {
     dateOfBirth: '',
 
     showResult: false,
-    resultMessage: ''
+    resultMessage: '',
+    errors: {}
+  };
+
+  // Simple validation function
+  validateForm = () => {
+    const errors = {};
+
+    // Check if required fields are filled
+    if (!this.state.firstName.trim()) {
+      errors.firstName = 'First name is required';
+    }
+    if (!this.state.lastName.trim()) {
+      errors.lastName = 'Last name is required';
+    }
+    if (!this.state.addressLine1.trim()) {
+      errors.addressLine1 = 'Address is required';
+    }
+    if (!this.state.city.trim()) {
+      errors.city = 'City is required';
+    }
+    if (!this.state.state.trim()) {
+      errors.state = 'State is required';
+    }
+    if (!this.state.zipCode.trim()) {
+      errors.zipCode = 'Zip code is required';
+    }
+    if (!this.state.ssn.trim()) {
+      errors.ssn = 'Social Security Number is required';
+    }
+    if (!this.state.email.trim()) {
+      errors.email = 'Email is required';
+    }
+    if (!this.state.dateOfBirth.trim()) {
+      errors.dateOfBirth = 'Date of birth is required';
+    }
+
+    // Basic format checks
+    if (this.state.email && !this.state.email.includes('@')) {
+      errors.email = 'Please enter a valid email';
+    }
+    if (this.state.ssn && this.state.ssn.replace(/[^0-9]/g, '').length !== 9) {
+      errors.ssn = 'SSN must be 9 digits';
+    }
+    if (this.state.zipCode && this.state.zipCode.replace(/[^0-9]/g, '').length !== 5) {
+      errors.zipCode = 'Zip code must be 5 digits';
+    }
+
+    return errors;
   };
 
   // This runs every time someone types in a form field
@@ -29,6 +77,15 @@ export default class App extends Component {
   // This runs when someone clicks "Submit Application"
   handleSubmit = async (event) => {
     event.preventDefault(); // Stops the page from refreshing
+
+    // Check for validation errors
+    const errors = this.validateForm();
+    this.setState({ errors });
+
+    // If there are errors, don't submit
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
 
     // Send the form data to our backend
     try {
@@ -92,7 +149,8 @@ export default class App extends Component {
       email: '',
       dateOfBirth: '',
       showResult: false,
-      resultMessage: ''
+      resultMessage: '',
+      errors: {}
     });
   };
 
@@ -123,6 +181,7 @@ export default class App extends Component {
               value={this.state.firstName}
               onChange={this.handleChange}
             />
+            {this.state.errors.firstName && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.firstName}</div>}
           </p>
 
           <p>
@@ -133,6 +192,7 @@ export default class App extends Component {
               value={this.state.lastName}
               onChange={this.handleChange}
             />
+            {this.state.errors.lastName && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.lastName}</div>}
           </p>
 
           <p>
@@ -143,6 +203,7 @@ export default class App extends Component {
               value={this.state.addressLine1}
               onChange={this.handleChange}
             />
+            {this.state.errors.addressLine1 && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.addressLine1}</div>}
           </p>
 
           <p>
@@ -163,6 +224,7 @@ export default class App extends Component {
               value={this.state.city}
               onChange={this.handleChange}
             />
+            {this.state.errors.city && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.city}</div>}
           </p>
 
           <p>
@@ -173,6 +235,7 @@ export default class App extends Component {
               value={this.state.state}
               onChange={this.handleChange}
             />
+            {this.state.errors.state && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.state}</div>}
           </p>
 
           <p>
@@ -183,6 +246,7 @@ export default class App extends Component {
               value={this.state.zipCode}
               onChange={this.handleChange}
             />
+            {this.state.errors.zipCode && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.zipCode}</div>}
           </p>
 
           <p>
@@ -193,6 +257,7 @@ export default class App extends Component {
               value={this.state.ssn}
               onChange={this.handleChange}
             />
+            {this.state.errors.ssn && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.ssn}</div>}
           </p>
 
           <p>
@@ -203,6 +268,7 @@ export default class App extends Component {
               value={this.state.email}
               onChange={this.handleChange}
             />
+            {this.state.errors.email && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.email}</div>}
           </p>
 
           <p>
@@ -213,6 +279,7 @@ export default class App extends Component {
               value={this.state.dateOfBirth}
               onChange={this.handleChange}
             />
+            {this.state.errors.dateOfBirth && <div style={{ color: 'red', fontSize: '14px' }}>{this.state.errors.dateOfBirth}</div>}
           </p>
 
           <p>
