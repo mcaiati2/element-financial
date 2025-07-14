@@ -111,7 +111,7 @@ export default class App extends Component {
     // Otherwise, show the form
     return (
       <div>
-        <h1>Bank Account Application</h1>
+        <h1>Element Financial</h1>
 
         <form onSubmit={this.handleSubmit}>
 
