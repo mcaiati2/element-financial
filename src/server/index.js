@@ -26,7 +26,7 @@ app.post('/api/submit-application', async (req, res) => {
       address_line_1: req.body.addressLine1,
       address_line_2: req.body.addressLine2 || '',
       address_city: req.body.city,
-      address_state: req.body.state,
+      address_state: req.body.state.toUpperCase(), // Fixes lowercase submission issue
       address_postal_code: req.body.zipCode,
       address_country_code: 'US',
       document_ssn: req.body.ssn,
